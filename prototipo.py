@@ -11,6 +11,23 @@ propietarios_dict = {
     "33 16 ": "Laura Fernández",
     "29 11 ": "Jorge Castro",
     "22 17 ": "Elena Morales"}
+visitantes = {
+    "0102030405": ["Juan Pérez", "MZ-10", "V-15", "2024-11-22"],
+    "0203040506": ["María González", "MZ-5", "V-8", "2024-11-21"],
+    "0304050607": ["Carlos Martínez", "MZ-3", "V-20", "2024-11-20"],
+    "0405060708": ["Ana López", "MZ-7", "V-14", "2024-11-19"],
+    "0506070809": ["Luis Ramírez", "MZ-12", "V-5", "2024-11-18"],
+    "0607080910": ["Sofía Torres", "MZ-8", "V-10", "2024-11-17"],
+    "0708091011": ["Miguel Chávez", "MZ-9", "V-25", "2024-11-16"],
+    "0809101112": ["Laura Fernández", "MZ-4", "V-19", "2024-11-15"],
+    "0910111213": ["Jorge Castro", "MZ-6", "V-22", "2024-11-14"],
+    "1011121314": ["Elena Morales", "MZ-1", "V-30", "2024-11-13"]
+}
+lista_negra = {
+    "0102030405": "Juan Pérez",
+    "0203040506": "María González",
+    "0304050607": "Carlos Martínez"
+}
 valido = True
 while valido:
     print("Bienvenido")
@@ -20,6 +37,7 @@ while valido:
     while (op not in [1,2,3]):
         op = int(input("Escoja una opción: "))
     if (op == 1):
+        print()
         print("Bienvenido")
         print("Escoja el metodo que desea probar")
         print("1 PREAUTORIZADO \n2 CÓDIGO QR\n3 SALIR")
@@ -50,4 +68,45 @@ while valido:
             else:
                 print("VILLA NO EXISTE")
                 valido = False
+    elif (op == 2):
+        print()
+        print("Bienvenido")
+        print("Escoja el metodo que desea probar")
+        print("1 PRE AUTORIZAR \n2 Historial de ingreso\n3 GENERAR QR \n4 LISTA NEGRA")
+        opr = int(input("Escoja una opción: "))
+        while (isinstance(opv, int) and opv not in [1,2,3,4]):
+            opr = int(input("Escoja una opción: "))
+        if (opr == 1):
+            break
+        elif (opr== 2):
+            break
+        elif (opr == 3):
+            break
+        elif (opr == 4):
+            break
+    elif (op == 3):
+        print()
+        print("Bienvenido")
+        print("Escoja el metodo que desea probar")
+        print("1 PRE AUTORIZAR \n2 BUSCAR PROPIETARIO")
+        opg = int(input("Escoja una opción: "))
+        while (isinstance(opv, int) and opv not in [1,2,3,4]):
+            opg = int(input("Escoja una opción: "))
+        if (opg == 1):
+            nombre = input("Ingrese el nombre: ")
+            cedula = input("Ingrese la cédula: ")
+            mz = input("A que manzana se dirige: ")
+            villa = input("A que villa se dirige: ")
+            casa = mz  + " " + villa
+            if cedula not in lista_negra.keys():
+                print("SE REGISTRA A {} CON INGRESO A LA CASA {}".format(nombre,casa))
+            else: 
+                print("PERSONA EN LISTA NEGRA, NEGAR INGRESO")
+        elif (opg== 2):
+            mz = input("A que manzana se dirige: ")
+            villa = input("A que villa se dirige: ")
+            casa = mz  + " " + villa + " "  
+            if casa in propietarios_dict.keys(): 
+                print(casa + "de " + propietarios_dict[casa]+ " Telefono: 0994567310")
+            valido = False
 print("GRACIAS")
