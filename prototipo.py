@@ -120,10 +120,10 @@ while valido:
             opl = int(input("Escoja una opción: "))
             while (isinstance(opl, int) and opl not in [1,2,3,4]):
                 opl = int(input("Escoja una opción: "))
-            if (opr == 1):
+            if (opl == 1):
                 for i in lista_negra.keys():
                     print("{}: {}".format(i,lista_negra[i]))
-            elif (opr== 2):
+            elif (opl == 2):
                 nombre = input("Ingrese el nombre: ")
                 cedula = input("Ingrese la cédula: ")
                 lista_negra.update({cedula:nombre})
