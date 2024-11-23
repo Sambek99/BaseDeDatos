@@ -88,7 +88,7 @@ while valido:
         print("Escoja el metodo que desea probar")
         print("1 PRE AUTORIZAR \n2 Historial de ingreso\n3 GENERAR QR \n4 LISTA NEGRA")
         opr = int(input("Escoja una opción: "))
-        while (isinstance(opv, int) and opv not in [1,2,3,4]):
+        while (isinstance(opr, int) and opr not in [1,2,3,4]):
             opr = int(input("Escoja una opción: "))
         if (opr == 1):
             nombre = input("Ingrese el nombre: ")
@@ -104,38 +104,38 @@ while valido:
         elif (opr== 2):
             print("HISTORIAL DE VISITAS: ")
             for i in visitantes.keys():
-                    print("{}: {}".format(i," ".join(list[i])))
+                    print("{}: {}".format(i," ".join(visitantes[i])))
             valido = False
         elif (opr == 3):
             nombre = input("Ingrese el nombre: ")
             cedula = input("Ingrese la cédula: ")
-            fecha= dt.now() 
-            fechaFin =  fecha + dt.timedelta(days=1)
+            fecha= dt.datetime.now() 
+            dias = input("CUANTOS DIAS DE VALIDEZ: ")
+            fechaFin =  fecha + dt.timedelta(days=int(dias))
             qr = hash(nombre+cedula+str(fecha)+str(fechaFin))
             print("SE GENERO EL QR PARA LA PERSONA: {}\nCODIGO: {}".format(nombre,qr))
             valido = False
         elif (opr == 4):
             print("1 MOSTRAR LISTA NEGRA \n2 AGREGAR A LISTA NEGRA")
             opl = int(input("Escoja una opción: "))
-            while (isinstance(opv, int) and opv not in [1,2,3,4]):
+            while (isinstance(opl, int) and opl not in [1,2,3,4]):
                 opl = int(input("Escoja una opción: "))
             if (opr == 1):
                 for i in lista_negra.keys():
-                    print("{}: {}".format(i,list[i]))
-                valido = False
+                    print("{}: {}".format(i,lista_negra[i]))
             elif (opr== 2):
                 nombre = input("Ingrese el nombre: ")
                 cedula = input("Ingrese la cédula: ")
                 lista_negra.update({cedula:nombre})
                 print("SE AGREGO A {} A LA LISTA NEGRA".format(nombre))
-                valido = False
+            valido = False
     elif (op == 3):
         print()
         print("Bienvenido")
         print("Escoja el metodo que desea probar")
         print("1 PRE AUTORIZAR \n2 BUSCAR PROPIETARIO")
         opg = int(input("Escoja una opción: "))
-        while (isinstance(opv, int) and opv not in [1,2,3,4]):
+        while (isinstance(opg, int) and opg not in [1,2,3,4]):
             opg = int(input("Escoja una opción: "))
         if (opg == 1):
             nombre = input("Ingrese el nombre: ")
