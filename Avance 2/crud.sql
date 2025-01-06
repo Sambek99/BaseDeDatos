@@ -69,3 +69,49 @@ VALUES ('0900000001', '0996547741', '2024-01-05', 55.00),
 INSERT INTO pagos (cedula_administrador, cedula_propietario, fecha_pago, monto)
 VALUES ('0900000001', '0999562114', '2024-10-05', 55.00),
        ('0900000001', '0999562114', '2024-11-05', 55.00);
+
+
+-- QUERYS
+-- 1. Verificar los propietarios en mora junto con las casas que poseen
+SELECT p.nombre, p.apellido, p.numero_de_cedula, c.codigo_catastral, c.villa, c.manzana
+FROM propietario p
+JOIN casa c ON p.numero_de_cedula = c.numero_de_cedula
+WHERE p.en_mora = TRUE;
+
+
+-- 2. Consultar los visitantes que han sido autorizados por un guardia en un día específico
+SELECT v.nombre, v.apellido, ag.cedula_guardia, ag.hora, ag.fecha
+FROM autorizacionguardia ag
+JOIN visitante v ON ag.cedula_visitante = v.numero_de_cedula
+WHERE ag.fecha = '2024-03-03';
+
+
+-- 3. Consultar los pagos pendientes para cada propietario durante el 2024 (propietarios que no pagaron el año completo)
+SELECT p.nombre, p.apellido, p.numero_de_cedula, COUNT(pa.id_pago) AS pagos_realizados
+FROM propietario p
+LEFT JOIN pagos pa ON p.numero_de_cedula = pa.cedula_propietario
+WHERE YEAR(pa.fecha_pago) = 2024
+GROUP BY p.numero_de_cedula
+HAVING pagos_realizados < 12;
+
+--4. Consultar el listado de vehículos y sus residentes 
+SELECT 
+    v.placa,
+    v.modelo,
+    v.color,
+    c.villa,
+    c.manzana,
+    p.nombre as propietario,
+    GROUP_CONCAT(r.nombre) as residentes
+FROM vehiculo v
+JOIN casa c ON v.codigo_catastral = c.codigo_catastral
+JOIN propietario p ON c.numero_de_cedula = p.numero_de_cedula
+LEFT JOIN residente r ON c.codigo_catastral = r.codigo_catastral
+GROUP BY v.placa
+ORDER BY c.villa;
+
+-- 5. Consultar los propietarios que no han pagado segun un mes especifico en este caso marzo
+SELECT p.nombre, p.apellido, p.numero_de_cedula
+FROM propietario p
+LEFT JOIN pagos pa ON p.numero_de_cedula = pa.cedula_propietario AND MONTH(pa.fecha_pago) = 3
+WHERE pa.id_pago IS NULL;
