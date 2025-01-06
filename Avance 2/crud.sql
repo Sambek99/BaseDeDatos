@@ -6,7 +6,7 @@ use ciudadela;
 INSERT INTO propietario (numero_de_cedula, correo, contrasena, nombre, apellido, huella_dactilar, telefono, en_mora) VALUES
 ('0958466578', 'juan_basurita@gmail.com', 'Contra1', 'Juan', 'Basurita', 'huella1', '0911478856', FALSE),
 ('0996547741', 'marisol_escobar@gmail.com', 'Contra2', 'Marisol', 'Escobar', 'huella2', '0998995621', TRUE),
-('0999562114', 'beker_zambrano@gmail.com', 'Contra3', 'Beker', 'Zambrano', 'huella3', '0955124479', FALSE);
+('0999562114', 'beker_zambrano@gmail.com', 'Contra3', 'Beker', 'Zambrano', 'huella3', '0955124479', FALSE),
 ('0900000001', 'admin@gmail.com', 'Contramaster', 'Admin', 'Master', 'huella4', '0999999999', FALSE);
 
 INSERT INTO casa (codigo_catastral, numero_de_cedula, villa, manzana, telefono1, telefono2, telefono3) VALUES
@@ -69,3 +69,33 @@ VALUES ('0900000001', '0996547741', '2024-01-05', 55.00),
 INSERT INTO pagos (cedula_administrador, cedula_propietario, fecha_pago, monto)
 VALUES ('0900000001', '0999562114', '2024-10-05', 55.00),
        ('0900000001', '0999562114', '2024-11-05', 55.00);
+       
+-- Beker Gaona
+-- Delete borrar que fueron agregados por error
+DELETE FROM pagos
+WHERE fecha_pago LIKE '2024-12%';
+
+-- borrar un vehiculo
+DELETE FROM vehiculo
+WHERE placa like 'GGE1234';
+
+-- borrar una autorizacion guardia
+DELETE FROM autorizacionguardia
+WHERE id like '10';
+
+-- Borrar un código qr
+DELETE FROM codigoqr
+WHERE cedula_visitante = '0902334567';
+
+-- Eliminar los vehículos de propietarios que tienen menos de 3 pagos
+DELETE p
+FROM pagos p
+JOIN (
+    SELECT cedula_propietario
+    FROM pagos
+    GROUP BY cedula_propietario
+    HAVING COUNT(cedula_propietario) < 3
+) AS subquery ON p.cedula_propietario = subquery.cedula_propietario;
+
+
+
