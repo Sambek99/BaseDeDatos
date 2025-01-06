@@ -73,15 +73,14 @@ CREATE TABLE administrador (
 
 -- Tabla pagos
 CREATE TABLE pagos (
-    id_pago INT AUTO_INCREMENT PRIMARY KEY,      -- Identificador único del pago
     cedula_administrador VARCHAR(10) NOT NULL,    -- Cédula del administrador
     cedula_propietario VARCHAR(10) NOT NULL,      -- Cédula del propietario
     fecha_pago DATE NOT NULL,                     -- Fecha del pago
     monto DECIMAL(10, 2) NOT NULL,                -- Monto del pago
-    FOREIGN KEY (cedula_administrador) REFERENCES propietario(numero_de_cedula),  -- Relación con la tabla propietario
+    PRIMARY KEY (cedula_administrador, cedula_propietario, fecha_pago),  -- Nueva clave primaria
+    FOREIGN KEY (cedula_administrador) REFERENCES administrador(numero_de_cedula),  -- Relación con la tabla administrador
     FOREIGN KEY (cedula_propietario) REFERENCES propietario(numero_de_cedula)     -- Relación con la tabla propietario
 );
-
 
 -- Tabla guardia
 CREATE TABLE guardia (
