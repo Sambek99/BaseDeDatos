@@ -89,6 +89,24 @@ INSERT INTO codigoqr (id, cedula_visitante, cedula_propietario, fecha_inicio, fe
 (10, '0903001234', '0900101234', '2024-04-05', '2024-04-15');
 
 
+INSERT INTO administrador (numero_de_cedula, correo, contrasena, nombre, apellido, telefono) VALUES
+('0900000001', 'admin@gmail.com', 'admin1234', 'Juan', 'Perez', '0987654321');
+
+
+INSERT INTO guardia (numero_de_cedula, correo, contrasena, nombre, apellido, telefono) VALUES
+('0901112345', 'guardia1@gmail.com', 'guardia123', 'Carlos', 'Sánchez', '0981234567'),
+('0901223456', 'guardia2@gmail.com', 'guardia124', 'Ana', 'González', '0982345678'),
+('0901334567', 'guardia3@gmail.com', 'guardia125', 'Pedro', 'Martínez', '0983456789'),
+('0901445678', 'guardia4@gmail.com', 'guardia126', 'Luisa', 'Ramírez', '0984567890'),
+('0901556789', 'guardia5@gmail.com', 'guardia127', 'Javier', 'López', '0985678901'),
+('0901667890', 'guardia6@gmail.com', 'guardia128', 'Marta', 'Hernández', '0986789012'),
+('0901778901', 'guardia7@gmail.com', 'guardia129', 'José', 'Pérez', '0987890123'),
+('0901889012', 'guardia8@gmail.com', 'guardia130', 'Laura', 'Díaz', '0988901234'),
+('0901990123', 'guardia9@gmail.com', 'guardia131', 'Raúl', 'Gómez', '0989012345'),
+('0902001234', 'guardia10@gmail.com', 'guardia132', 'Isabel', 'Vargas', '0980123456');
+
+
+
 INSERT INTO preautorizacion (id, cedula_guardia, cedula_visitante, cedula_propietario, fecha_inicio, fecha_fin) VALUES
 (1, '0901112345', '0902112345', '0900012345', '2024-01-01', '2024-01-15'),
 (2, '0901223456', '0902223456', '0900023456', '2024-01-10', '2024-01-20'),
@@ -261,20 +279,4 @@ VALUES ('0900000001', '0900101234', '2024-01-05', 55.00),
        ('0900000001', '0900101234', '2024-11-05', 55.00),
        ('0900000001', '0900101234', '2024-12-05', 55.00);
 
-
-INSERT INTO administrador (numero_de_cedula, correo, contrasena, nombre, apellido, telefono) VALUES
-('0900000001', 'admin@gmail.com', 'admin1234', 'Juan', 'Perez', '0987654321');
-
-
-INSERT INTO guardia (numero_de_cedula, correo, contrasena, nombre, apellido, telefono) VALUES
-('0901112345', 'guardia1@gmail.com', 'guardia123', 'Carlos', 'Sánchez', '0981234567'),
-('0901223456', 'guardia2@gmail.com', 'guardia124', 'Ana', 'González', '0982345678'),
-('0901334567', 'guardia3@gmail.com', 'guardia125', 'Pedro', 'Martínez', '0983456789'),
-('0901445678', 'guardia4@gmail.com', 'guardia126', 'Luisa', 'Ramírez', '0984567890'),
-('0901556789', 'guardia5@gmail.com', 'guardia127', 'Javier', 'López', '0985678901'),
-('0901667890', 'guardia6@gmail.com', 'guardia128', 'Marta', 'Hernández', '0986789012'),
-('0901778901', 'guardia7@gmail.com', 'guardia129', 'José', 'Pérez', '0987890123'),
-('0901889012', 'guardia8@gmail.com', 'guardia130', 'Laura', 'Díaz', '0988901234'),
-('0901990123', 'guardia9@gmail.com', 'guardia131', 'Raúl', 'Gómez', '0989012345'),
-('0902001234', 'guardia10@gmail.com', 'guardia132', 'Isabel', 'Vargas', '0980123456');
 
