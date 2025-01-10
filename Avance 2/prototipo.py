@@ -102,16 +102,16 @@ def menu_guardia():
     ]
     print(tabulate(menu, headers=["Opción", "Tabla"], tablefmt="grid"))
 
-def insertar_y_generar_qr(cedula_visitante, cedula_propietario, nombre, apellido, fecha_visita):
+def insertar_y_generar_qr(cedula_visitante,cedula,nombre,apellido,fecha_visita):
     # Query para verificar si el visitante existe
     check_query = "SELECT 1 FROM visitante WHERE numero_de_cedula = '{}'".format(cedula_visitante)
     
     # Query para insertar un nuevo visitante si no existe
     insert_visitante_query = "INSERT INTO visitante VALUES ('{}', '{}', '{}')".format(cedula_visitante,nombre,apellido)
     
-    # Query para insertar el código QR generado
+    # Query para insertar la qr generado
     fecha_fin = (datetime.strptime(fecha_visita, '%Y-%m-%d') + timedelta(days=1)).strftime('%Y-%m-%d')
-    insert_qr_query = "INSERT INTO codigoqr (cedula_visitante, cedula_propietario, fecha_inicio, fecha_fin) VALUES ('{}', '{}', '{}', '{}')".format(cedula_visitante,cedula_propietario,fecha_visita,fecha_fin)
+    insert_query_qr = "INSERT INTO codigoqr (cedula_visitante, cedula_propietario, fecha_inicio, fecha_fin) VALUES ('{}', '{}', '{}', '{}')".format(cedula_visitante,cedula,fecha_visita,fecha_fin)
     
     try:
         # Verificar si el visitante existe
@@ -120,22 +120,83 @@ def insertar_y_generar_qr(cedula_visitante, cedula_propietario, nombre, apellido
         if rows:
             print(Fore.YELLOW + "El visitante ya existe.")
 
-            # Insertar el QR en la tabla
-            ejecutar_query(insert_qr_query)
-            print(Fore.GREEN + "Código QR generado y almacenado en la base de datos.")
+            # Insertar el autorizacion en la tabla
+            ejecutar_query(insert_query_qr)
+            print(Fore.GREEN + "El QR ha sido generado y almacenado en la base de datos.")
         else:
             # Si no existe, insertamos al visitante
             ejecutar_query(insert_visitante_query)
             print(Fore.GREEN + "Visitante insertado exitosamente.")
             
-            # Insertar el QR en la tabla
-            ejecutar_query(insert_qr_query)
-            print(Fore.GREEN + "Código QR generado y almacenado en la base de datos.")
+            # Insertar el autorizacion en la tabla
+            ejecutar_query(insert_query_qr)
+            print(Fore.GREEN + "El QR ha sido generado y almacenado en la base de datos.")
         
     except Exception as e:
         print(Fore.RED + f"Error: {e}")
 
+def insertar_blackl_list(cedula_visitante, cedula_propietario, codigo_catastral):
+    # Query para verificar si el visitante existe
+    check_query = "SELECT 1 FROM visitante WHERE numero_de_cedula = '{}'".format(cedula_visitante)
+    
+    # Query para insertar un nuevo visitante si no existe
+    insert_visitante_query = "INSERT INTO visitante VALUES ('{}', '{}', '{}')".format(cedula_visitante,nombre,apellido)
+    
+    # Query para insertar el código QR generado
+    insert_black_list = "INSERT INTO lista_negra (cedula_visitante, codigo_catastral) VALUES ('{}', '{}')".format(cedula_visitante,codigo_catastral)
+    
+    try:
+        # Verificar si el visitante existe
+        cur.execute(check_query)
+        rows = cur.fetchall()
+        if rows:
+            print(Fore.YELLOW + "El visitante ya existe.")
 
+            # Insertar en lista negra
+            ejecutar_query(insert_black_list)
+            print(Fore.GREEN + "Agregado a la lista negra y almacenado en la base de datos.")
+        else:
+            # Si no existe, insertamos al visitante
+            ejecutar_query(insert_visitante_query)
+            print(Fore.GREEN + "Visitante insertado exitosamente.")
+            
+            # Insertar en lista negra
+            ejecutar_query(insert_black_list)
+            print(Fore.GREEN + "Agregado a la lista negra y almacenado en la base de datos.")
+    except Exception as e:
+        print(Fore.RED + f"Error: {e}")
+
+def insertar_y_generar_autorizacion(cedula_guardia,cedula_visitante,cedula_propietario,nombre,apellido,fecha_visita,fecha_fin):
+    # Query para verificar si el visitante existe
+    check_query = "SELECT 1 FROM visitante WHERE numero_de_cedula = '{}'".format(cedula_visitante)
+    
+    # Query para insertar un nuevo visitante si no existe
+    insert_visitante_query = "INSERT INTO visitante VALUES ('{}', '{}', '{}')".format(cedula_visitante,nombre,apellido)
+    
+    # Query para insertar la autorizacion generada
+    insert_query_at = "INSERT INTO preautorizacion (cedula_guardia, cedula_visitante, cedula_propietario, fecha_inicio, fecha_fin) VALUES ('{}', '{}', '{}', '{}', '{}')".format(cedula_guardia,cedula_visitante,cedula_propietario,fecha_visita,fecha_fin)
+    
+    try:
+        # Verificar si el visitante existe
+        cur.execute(check_query)
+        rows = cur.fetchall()
+        if rows:
+            print(Fore.YELLOW + "El visitante ya existe.")
+
+            # Insertar el autorizacion en la tabla
+            ejecutar_query(insert_query_at)
+            print(Fore.GREEN + "La autorizacion ha sido generada y almacenada en la base de datos.")
+        else:
+            # Si no existe, insertamos al visitante
+            ejecutar_query(insert_visitante_query)
+            print(Fore.GREEN + "Visitante insertado exitosamente.")
+            
+            # Insertar el autorizacion en la tabla
+            ejecutar_query(insert_query_at)
+            print(Fore.GREEN + "La autorizacion ha sido generada y almacenada en la base de datos.")
+        
+    except Exception as e:
+        print(Fore.RED + f"Error: {e}")
 
 valido = True
 while valido:
@@ -181,9 +242,21 @@ while valido:
                 fecha_inicio = input(Fore.BLUE + "Ingrese la fecha de la visita en formato AAAA-MM-DD: ")
                 insertar_y_generar_qr(cedula_visitante,cedula,nombre,apellido,fecha_inicio)
             elif opr == 7:
-                pass
+                cedula_guardia= "0901556789"
+                cedula_visitante = input(Fore.BLUE + "Ingrese la cedula del visitante: ")
+                nombre = input(Fore.BLUE + "Ingrese el nombre del visitante: ")
+                apellido = input(Fore.BLUE + "Ingrese el apellido del visitante: ")
+                fecha_inicio = input(Fore.BLUE + "Ingrese la fecha de la visita en formato AAAA-MM-DD: ")
+                fecha_fin = input(Fore.BLUE + "Ingrese la fecha fin de la visita en formato AAAA-MM-DD: ")
+                insertar_y_generar_autorizacion(cedula_guardia,cedula_visitante,cedula,nombre,apellido,fecha_inicio,fecha_fin)
             elif opr == 8:
-                pass
+                codigo_catastral = obtener_datos_en_lista("SELECT codigo_catastral FROM casa WHERE numero_de_cedula = '{}';".format(cedula),["Cedula"])[0][0]
+                print(codigo_catastral)
+                cedula_guardia= "0901556789"
+                cedula_visitante = input(Fore.BLUE + "Ingrese la cedula del visitante: ")
+                nombre = input(Fore.BLUE + "Ingrese el nombre del visitante: ")
+                apellido = input(Fore.BLUE + "Ingrese el apellido del visitante: ")
+                insertar_blackl_list(cedula_guardia, cedula_visitante, cedula, nombre, apellido)
         elif op == 3:  # Modo Guardia
             clear()
             menu_guardia()
