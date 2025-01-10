@@ -3,6 +3,12 @@ import pymysql
 from dotenv import load_dotenv
 from tabulate import tabulate
 from colorama import init, Fore, Style
+import pymysql
+import qrcode
+from io import BytesIO
+from PIL import Image
+from datetime import datetime, timedelta
+
 
 load_dotenv()
 init(autoreset=True)
@@ -44,6 +50,15 @@ def obtener_datos_en_lista(query, headers):
         print(Fore.RED + f"Error al ejecutar la consulta: {e}")
         return []
 
+def ejecutar_query(query):
+    try:
+        cur.execute(query)
+        connection.commit()  # Confirmar los cambios si es un query de escritura
+        print(Fore.GREEN + "Proceso exitoso.")
+    except Exception as e:
+        print(Fore.RED + f"No se realizó la operación: {e}")
+
+
 def mostrar_menu_principal():
     print(Fore.RED + Style.BRIGHT + "BIENVENIDO A LA CIUDADELA\n")
     menu = [
@@ -71,7 +86,10 @@ def menu_propietario():
         ["2", "CÓDIGO QR"],
         ["3", "LISTA NEGRA"],
         ["4", "PROPIETARIOS EN MORA"],
-        ["5", "PAGOS PENDIENTES"]
+        ["5", "PAGOS PENDIENTES"],
+        ["6", "GENERAR QR"],
+        ["7", "GENERAR AUTORIZACION"],
+        ["8", "AGREGAR LISTA NEGRA"]
     ]
     print(tabulate(menu, headers=["Opción", "Tabla"], tablefmt="grid"))
 
@@ -83,6 +101,41 @@ def menu_guardia():
         ["3", "VEHÍCULOS Y RESIDENTES"]
     ]
     print(tabulate(menu, headers=["Opción", "Tabla"], tablefmt="grid"))
+
+def insertar_y_generar_qr(cedula_visitante, cedula_propietario, nombre, apellido, fecha_visita):
+    # Query para verificar si el visitante existe
+    check_query = "SELECT 1 FROM visitante WHERE numero_de_cedula = '{}'".format(cedula_visitante)
+    
+    # Query para insertar un nuevo visitante si no existe
+    insert_visitante_query = "INSERT INTO visitante VALUES ('{}', '{}', '{}')".format(cedula_visitante,nombre,apellido)
+    
+    # Query para insertar el código QR generado
+    fecha_fin = (datetime.strptime(fecha_visita, '%Y-%m-%d') + timedelta(days=1)).strftime('%Y-%m-%d')
+    insert_qr_query = "INSERT INTO codigoqr (cedula_visitante, cedula_propietario, fecha_inicio, fecha_fin) VALUES ('{}', '{}', '{}', '{}')".format(cedula_visitante,cedula_propietario,fecha_visita,fecha_fin)
+    
+    try:
+        # Verificar si el visitante existe
+        cur.execute(check_query)
+        rows = cur.fetchall()
+        if rows:
+            print(Fore.YELLOW + "El visitante ya existe.")
+
+            # Insertar el QR en la tabla
+            ejecutar_query(insert_qr_query)
+            print(Fore.GREEN + "Código QR generado y almacenado en la base de datos.")
+        else:
+            # Si no existe, insertamos al visitante
+            ejecutar_query(insert_visitante_query)
+            print(Fore.GREEN + "Visitante insertado exitosamente.")
+            
+            # Insertar el QR en la tabla
+            ejecutar_query(insert_qr_query)
+            print(Fore.GREEN + "Código QR generado y almacenado en la base de datos.")
+        
+    except Exception as e:
+        print(Fore.RED + f"Error: {e}")
+
+
 
 valido = True
 while valido:
@@ -121,6 +174,16 @@ while valido:
                 mostrar_tabla("SELECT p.nombre, p.apellido, p.numero_de_cedula, c.codigo_catastral, c.villa, c.manzana FROM propietario p JOIN casa c ON p.numero_de_cedula = c.numero_de_cedula WHERE p.en_mora = TRUE AND p.numero_de_cedula = '{}';".format(cedula), ["Nombre", "Apellido", "Cédula", "Código Catastral", "Villa", "Manzana"])
             elif opr == 5:
                 mostrar_tabla("SELECT p.nombre, p.apellido, p.numero_de_cedula, COUNT(pa.fecha_pago) AS pagos_realizados FROM propietario p LEFT JOIN pagos pa ON p.numero_de_cedula = pa.cedula_propietario AND YEAR(pa.fecha_pago) = 2024 WHERE p.numero_de_cedula = '{}' GROUP BY p.numero_de_cedula HAVING pagos_realizados < 12;".format(cedula), ["Nombre", "Apellido", "Cédula", "Pagos Realizados"])
+            elif opr == 6:
+                cedula_visitante = input(Fore.BLUE + "Ingrese la cedula del visitante: ")
+                nombre = input(Fore.BLUE + "Ingrese el nombre del visitante: ")
+                apellido = input(Fore.BLUE + "Ingrese el apellido del visitante: ")
+                fecha_inicio = input(Fore.BLUE + "Ingrese la fecha de la visita en formato AAAA-MM-DD: ")
+                insertar_y_generar_qr(cedula_visitante,cedula,nombre,apellido,fecha_inicio)
+            elif opr == 7:
+                pass
+            elif opr == 8:
+                pass
         elif op == 3:  # Modo Guardia
             clear()
             menu_guardia()
