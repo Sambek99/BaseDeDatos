@@ -30,6 +30,20 @@ def mostrar_tabla(query, headers):
     except Exception as e:
         print(Fore.RED + f"Error al ejecutar la consulta: {e}")
 
+def obtener_datos_en_lista(query, headers):
+    try:
+        cur.execute(query)
+        rows = cur.fetchall()
+        if rows:
+            #print(tabulate(rows, headers=headers, tablefmt="fancy_grid"))
+            return [list(row) for row in rows]  # Convertir cada fila a lista y devolver como lista de listas
+        else:
+            print(Fore.YELLOW + "No se encontraron resultados.")
+            return []
+    except Exception as e:
+        print(Fore.RED + f"Error al ejecutar la consulta: {e}")
+        return []
+
 def mostrar_menu_principal():
     print(Fore.RED + Style.BRIGHT + "BIENVENIDO A LA CIUDADELA\n")
     menu = [
@@ -91,17 +105,22 @@ while valido:
         elif op == 2:  # Modo Propietario
             clear()
             menu_propietario()
+            correo = input(Fore.BLUE + "Ingrese su correo: ")
+            conta = input(Fore.BLUE + "Ingrese su Contraseña: ")
+            # Aquí se está utilizando .format() para asegurar que los valores estén dentro de comillas.
+            query = "SELECT numero_de_cedula FROM propietario WHERE correo = '{}' AND contrasena = '{}'".format(correo, conta)
+            cedula = obtener_datos_en_lista(query,["Cedula"])[0][0]
             opr = int(input("Escoja una opción: "))
             if opr == 1:
-                mostrar_tabla("SELECT codigo_catastral, numero_de_cedula, villa, manzana, telefono1 FROM casa LIMIT 10;", ["Código Catastral", "Número de cédula", "Villa", "Manzana", "Teléfono"])
+                mostrar_tabla("SELECT codigo_catastral, numero_de_cedula, villa, manzana, telefono1 FROM casa WHERE numero_de_cedula = '{}';".format(cedula), ["Código Catastral", "Número de cédula", "Villa", "Manzana", "Teléfono"])
             elif opr == 2:
-                mostrar_tabla("SELECT * FROM codigoqr LIMIT 10;", ["ID", "Código"])
+                mostrar_tabla("SELECT * FROM codigoqr WHERE cedula_propietario = '{}';".format(cedula), ["ID", "Código"])
             elif opr == 3:
-                mostrar_tabla("SELECT * FROM lista_negra LIMIT 10;", ["Número de cédula", "Código Catastral"])
+                mostrar_tabla("SELECT ln.numero_de_cedula, ln.codigo_catastral FROM lista_negra ln JOIN casa c ON ln.codigo_catastral = c.codigo_catastral WHERE c.numero_de_cedula = '{}';".format(cedula), ["Número de cédula", "Código Catastral"])
             elif opr == 4:
-                mostrar_tabla("SELECT p.nombre, p.apellido, p.numero_de_cedula, c.codigo_catastral, c.villa, c.manzana FROM propietario p JOIN casa c ON p.numero_de_cedula = c.numero_de_cedula WHERE p.en_mora = TRUE;", ["Nombre", "Apellido", "Cédula", "Código Catastral", "Villa", "Manzana"])
+                mostrar_tabla("SELECT p.nombre, p.apellido, p.numero_de_cedula, c.codigo_catastral, c.villa, c.manzana FROM propietario p JOIN casa c ON p.numero_de_cedula = c.numero_de_cedula WHERE p.en_mora = TRUE AND p.numero_de_cedula = '{}';".format(cedula), ["Nombre", "Apellido", "Cédula", "Código Catastral", "Villa", "Manzana"])
             elif opr == 5:
-                mostrar_tabla("SELECT p.nombre, p.apellido, p.numero_de_cedula, COUNT(pa.id_pago) AS pagos_realizados FROM propietario p LEFT JOIN pagos pa ON p.numero_de_cedula = pa.cedula_propietario WHERE YEAR(pa.fecha_pago) = 2024 GROUP BY p.numero_de_cedula HAVING pagos_realizados < 12;", ["Nombre", "Apellido", "Cédula", "Pagos Realizados"])
+                mostrar_tabla("SELECT p.nombre, p.apellido, p.numero_de_cedula, COUNT(pa.fecha_pago) AS pagos_realizados FROM propietario p LEFT JOIN pagos pa ON p.numero_de_cedula = pa.cedula_propietario AND YEAR(pa.fecha_pago) = 2024 WHERE p.numero_de_cedula = '{}' GROUP BY p.numero_de_cedula HAVING pagos_realizados < 12;".format(cedula), ["Nombre", "Apellido", "Cédula", "Pagos Realizados"])
         elif op == 3:  # Modo Guardia
             clear()
             menu_guardia()
