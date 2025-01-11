@@ -99,6 +99,7 @@ def main():
             input(" ")
         except ValueError:
             print(Fore.RED + "Por favor, ingrese un número válido.")
+            input(" ")
         except Exception as e:
             print(Fore.RED + f"Error inesperado: {e}")
 
