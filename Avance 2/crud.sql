@@ -143,5 +143,44 @@ JOIN (
     HAVING COUNT(cedula_propietario) < 3
 ) AS subquery ON p.cedula_propietario = subquery.cedula_propietario;
 
+-- Editar registros
+
+-- Actualizar el estado de mora de un propietario
+UPDATE propietario
+SET en_mora = true
+WHERE numero_de_cedula = '0900078901';
+
+UPDATE propietario
+SET en_mora = false
+WHERE numero_de_cedula = '0900023456';
+
+UPDATE propietario
+SET en_mora = true
+WHERE numero_de_cedula = '0900034567';
+
+-- Actualizar el monto de un pago específico por algún daño o cambio
+UPDATE pagos
+SET monto = 90.00
+WHERE cedula_propietario = "0900089012" AND fecha_pago = "2024-06-05";
+
+UPDATE pagos
+SET monto = 150.00
+WHERE cedula_propietario = "0900089012" AND fecha_pago = "2024-03-05";
+
+-- Actualizar el número de teléfono de un administrador
+UPDATE Administrador
+SET telefono = "0973210168"
+WHERE numero_de_cedula = "0900000001";
+
+-- Actualizar la contraseña de un guardia
+UPDATE guardia
+SET contrasena = "pass1234"
+WHERE numero_de_cedula = "0902001234";
+
+-- Cambiar el telefono1 de una casa con la Mz y Villa
+UPDATE casa
+SET telefono1 = "041263071785"
+WHERE Manzana = "2"
+AND Villa = "2"
 
 
