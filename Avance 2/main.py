@@ -69,7 +69,7 @@ def main():
                 clear_screen()
                 correo_admin = input(Fore.LIGHTBLUE_EX + "Ingrese su correo: ")
                 contra_admin = input(Fore.LIGHTBLUE_EX + "Ingrese su contraseña: ")
-                if correo_admin != "admin@gmail.com" and contra_admin != "Contramaster":
+                if correo_admin != "admin@gmail.com" or contra_admin != "Contramaster":
                     print(Fore.RED + "\nLo lamento, pero no tiene acceso a esta sección.")
                     print(Fore.RED + "Correo o contraseña incorrectos.")
                     input(" ")
