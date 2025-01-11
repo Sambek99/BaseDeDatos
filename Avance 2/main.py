@@ -1,7 +1,8 @@
+import datetime
 from colorama import Fore
 
 from database import execute_query
-from menus import mostrar_menu_principal, menu_visitante, menu_propietario, menu_guardia
+from menus import mostrar_menu_principal, menu_visitante, menu_propietario, menu_administrador
 from utils import clear_screen, mostrar_tabla, insertar_y_generar_qr, insertar_blackl_list, insertar_y_generar_autorizacion
 
 def main():
@@ -66,15 +67,30 @@ def main():
                     insertar_blackl_list(cedula_guardia, cedula_visitante, cedula, nombre, apellido)
             elif op == 3:  # Modo Guardia
                 clear_screen()
-                menu_guardia()
+                correo_admin = input(Fore.LIGHTBLUE_EX + "Ingrese su correo: ")
+                contra_admin = input(Fore.LIGHTBLUE_EX + "Ingrese su contraseña: ")
+                if correo_admin != "admin@gmail.com" and contra_admin != "Contramaster":
+                    print(Fore.RED + "\nLo lamento, pero no tiene acceso a esta sección.")
+                    print(Fore.RED + "Correo o contraseña incorrectos.")
+                    input(" ")
+                    continue
+                clear_screen()
+                menu_administrador()
                 opg = int(input("Escoja una opción: "))
+                cedula_administrador = "0900000001"
                 if opg == 1:
-                    ## todo
-                    pass
+                    cedula_propietario = input(Fore.LIGHTBLUE_EX + "Ingrese la cédula del propietario: ")
+                    monto = 55.00
+                    fecha_pago = datetime.datetime.now().strftime('%Y-%m-%d')
+                    query = "INSERT INTO pagos (cedula_propietario, cedula_administrador, monto, fecha_pago) VALUES (%s, %s, %s, %s)"
+                    execute_query(query, (cedula_propietario, cedula_administrador, monto, fecha_pago))
+                    print(Fore.GREEN + "Pago registrado exitosamente.")
+                    mostrar_tabla("SELECT cedula_propietario, monto, fecha_pago FROM pagos WHERE cedula_propietario = %s;", ["Cédula Propietario", "Monto", "Fecha de Pago"], (cedula_propietario,))
+                    
                 elif opg == 2:
-                    mostrar_tabla("SELECT codigo_catastral, numero_de_cedula, villa, manzana, telefono1 FROM casa LIMIT 10;", ["Código Catastral", "Número de cédula", "Villa", "Manzana", "Teléfono"])
+                    mostrar_tabla("SELECT codigo_catastral, numero_de_cedula, villa, manzana, telefono1 FROM casa;", ["Código Catastral", "Número de cédula", "Villa", "Manzana", "Teléfono"])
                 elif opg == 3:
-                    mostrar_tabla("SELECT v.placa, v.modelo, v.color, c.villa, c.manzana, p.nombre as propietario, GROUP_CONCAT(r.nombre) as residentes FROM vehiculo v JOIN casa c ON v.codigo_catastral = c.codigo_catastral JOIN propietario p ON c.numero_de_cedula = p.numero_de_cedula LEFT JOIN residente r ON c.codigo_catastral = r.codigo_catastral GROUP BY v.placa ORDER BY c.villa;", ["Placa", "Modelo", "Color", "Villa", "Manzana", "Propietario", "Residentes"])
+                    mostrar_tabla("SELECT v.placa, v.modelo, v.color, c.villa, c.manzana, p.nombre as propietario, GROUP_CONCAT(r.nombre) as residentes FROM vehiculo v JOIN casa c USING(codigo_catastral) JOIN propietario p USING(numero_de_cedula) LEFT JOIN residente r USING(codigo_catastral) GROUP BY v.placa ORDER BY c.villa;", ["Placa", "Modelo", "Color", "Villa", "Manzana", "Propietario", "Residentes"])
             elif op == 4:  # Salir
                 print(Fore.CYAN + "Gracias por utilizar el sistema. ¡Hasta pronto!")
                 valido = False

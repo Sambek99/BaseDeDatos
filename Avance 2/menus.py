@@ -38,7 +38,7 @@ def menu_propietario():
     print(tabulate(menu, headers=["Opción", "Tabla"], tablefmt="grid"))
 
 def menu_administrador():
-    print(Fore.LIGHTBLUE_EX + "Modo Administrador: Elija la tabla que desea consultar")
+    print(Fore.MAGENTA + "Modo Administrador: Elija la tabla que desea consultar")
     menu = [
         ["1", "REGISTRAR PAGOS PROPIETARIOS"],
         ["2", "MOSTRAR TODAS LAS CASAS"],
