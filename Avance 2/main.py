@@ -65,7 +65,7 @@ def main():
                     nombre = input(Fore.BLUE + "Ingrese el nombre del visitante: ")
                     apellido = input(Fore.BLUE + "Ingrese el apellido del visitante: ")
                     insertar_blackl_list(cedula_guardia, cedula_visitante, cedula, nombre, apellido)
-            elif op == 3:  # Modo Guardia
+            elif op == 3:  # Modo Administrador
                 clear_screen()
                 correo_admin = input(Fore.LIGHTBLUE_EX + "Ingrese su correo: ")
                 contra_admin = input(Fore.LIGHTBLUE_EX + "Ingrese su contraseña: ")
