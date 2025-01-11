@@ -68,6 +68,47 @@ Modo Propietario: Elija la tabla que desea consultar
 +--------+----------------------+
 ```
 Seleccione una opción para realizar la acción correspondiente.
+Este código es parte de un sistema que permite a un propietario interactuar con una base de datos para consultar y gestionar información relacionada con su propiedad. Aquí se tiene un resumen de lo que hace:
+
+### Menú de opciones: 
+Se llama a la función menu_propietario() para mostrar un menú con opciones disponibles para el propietario.
+<img src="https://github.com/user-attachments/assets/be883cc4-7cae-4225-980d-3863b95cc333" width="300"/>
+
+### Opciones del menú: 
+Según la opción elegida por el usuario (opr):
+
+### Ingreso de credenciales: 
+Solicita al usuario que ingrese su correo y contraseña. Utiliza estos datos para formar una consulta SQL que verifica las credenciales en la tabla propietario. Si las credenciales son correctas, obtiene el número de cédula del propietario desde la base de datos usando la función obtener_datos_en_lista.
+
+
+Opción 1: Muestra información sobre la casa del propietario.
+
+<img src="https://github.com/user-attachments/assets/6ce8d767-5ba6-4ce0-a67d-caa5133d868a" width="500"/>
+
+Opción 2: Muestra los códigos QR asociados al propietario.
+
+<img src="https://github.com/user-attachments/assets/8c38a6ea-feb7-4b34-a0c7-37180d8745fa" width="500"/>
+
+Opción 3: Muestra la lista negra relacionada con las propiedades del propietario.
+
+<img src="https://github.com/user-attachments/assets/3717f2ba-07fb-4607-92fd-28117bfbb255" width="500"/>
+
+Opción 4: Muestra información de propietarios en mora.
+
+Opción 5: Muestra pagos pendientes de los propietarios para el año 2024.
+
+<img src="https://github.com/user-attachments/assets/f0b7fdbf-f773-4be2-9a9c-57ecebafeead" width="500"/>
+
+Opción 6: Permite generar un QR para un visitante, ingresando sus datos.
+
+![image](https://github.com/user-attachments/assets/9f2148b6-1280-4626-bf83-f92a6561123b)
+
+Opción 7: Genera una autorización para un visitante, ingresando su cédula, nombre, apellido y fechas de visita.
+
+![image](https://github.com/user-attachments/assets/8b1e2464-6ed2-4aa8-97e2-b96bc6533c79)
+
+Opción 8: Agrega a un visitante a la lista negra.
+
 
 ### Modo Administrador
 Si selecciona "MODO ADMINISTRADOR", se le pedirá que ingrese su correo electrónico y contraseña. 
