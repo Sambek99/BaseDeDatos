@@ -12,14 +12,12 @@ def mostrar_menu_principal():
         ["4", "SALIR"]
     ]
     print(tabulate(menu, headers=["Opción", "Descripción"], tablefmt="grid"))
-
+    
 def menu_visitante():
-    print(Fore.YELLOW + "Modo Visitante: Elija la tabla que desea consultar")
+    print(Fore.YELLOW + "Modo Visitante: Elija la tabla que como desea ingresar")
     menu = [
-        ["1", "VISITANTE"],
-        ["2", "CÓDIGO QR"],
-        ["3", "GUARDIA"],
-        ["4", "VISITANTES AUTORIZADOS"]
+        ["1", "ANUNCIARSE MEDIANTE EL GUARDIA"],
+        ["2", "CÓDIGO QR"]
     ]
     print(tabulate(menu, headers=["Opción", "Tabla"], tablefmt="grid"))
 
