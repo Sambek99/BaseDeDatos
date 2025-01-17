@@ -102,6 +102,8 @@ def menu_guardia():
     ]
     print(tabulate(menu, headers=["Opción", "Tabla"], tablefmt="grid"))
 
+
+
 def insertar_y_generar_qr(cedula_visitante, cedula, nombre, apellido, fecha_visita):
     try:
         # Llamar al procedimiento almacenado

@@ -15,3 +15,15 @@ def execute_query(query, params=None):
         print(f"Error: {e}")
     finally:
         connection.close()
+
+def execute_stored_procedure(proc_name, params=None):
+    connection = get_connection()
+    try:
+        with connection.cursor() as cursor:
+            cursor.callproc(proc_name, params)
+            connection.commit()
+            return cursor.fetchall()  # Devuelve los resultados si es necesario
+    except Exception as e:
+        print(f"Error: {e}")
+    finally:
+        connection.close()
