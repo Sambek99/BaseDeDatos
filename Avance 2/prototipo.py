@@ -102,17 +102,21 @@ def menu_guardia():
     ]
     print(tabulate(menu, headers=["Opción", "Tabla"], tablefmt="grid"))
 
-def insertar_y_generar_qr(cedula_visitante, cedula_propietario, nombre, apellido, fecha_visita):
+def insertar_y_generar_qr(cedula_visitante, cedula, nombre, apellido, fecha_visita):
     try:
         # Llamar al procedimiento almacenado
-        cur.callproc('insertar_y_generar_qr', (cedula_visitante, cedula_propietario, nombre, apellido, fecha_visita))
+        cur.callproc('insertar_y_generar_qr', 
+                     (cedula_visitante, cedula, nombre, apellido, fecha_visita))
         
         # Confirmar que la transacción se ha realizado
         connection.commit()
         
         print(Fore.GREEN + "El visitante y QR han sido gestionados correctamente.")
     except pymysql.MySQLError as e:
+        # En caso de error, hacer rollback para revertir cualquier cambio realizado
+        connection.rollback()
         print(Fore.RED + f"Error en el procedimiento almacenado: {e}")
+
 
 def insertar_black_list(cedula_visitante, codigo_catastral):
     # Query para verificar si el visitante existe
@@ -157,6 +161,8 @@ def insertar_y_generar_autorizacion(cedula_guardia, cedula_visitante, cedula_pro
         
         print(Fore.GREEN + "Visitante y autorización han sido gestionados correctamente.")
     except pymysql.MySQLError as e:
+        # En caso de error, hacer rollback para revertir cualquier cambio realizado
+        connection.rollback()
         print(Fore.RED + f"Error en el procedimiento almacenado: {e}")
 
 

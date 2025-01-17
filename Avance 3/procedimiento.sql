@@ -3,6 +3,7 @@ use ciudadela;
 -- CREACION DE UN PROCEDIMIENTO QUE REALIZA LA CREACION DE UN CODIGO QR PARA UN USUARIO VERIFICANDO SI EXISTE EL VISITANTE
 
 DELIMITER //
+
 CREATE PROCEDURE insertar_y_generar_qr(
     IN cedula_visitante CHAR(10), 
     IN cedula_propietario CHAR(10), 
@@ -12,6 +13,16 @@ CREATE PROCEDURE insertar_y_generar_qr(
 )
 BEGIN
     DECLARE fecha_fin DATE;
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- Si ocurre un error, revertir todas las operaciones
+        ROLLBACK;
+    END;
+    
+    -- Iniciar una transacción
+    START TRANSACTION;
+    
+    -- Calcular la fecha de fin
     SET fecha_fin = DATE_ADD(fecha_visita, INTERVAL 1 DAY);
 
     -- Verificar si el visitante existe
@@ -21,10 +32,14 @@ BEGIN
         VALUES (cedula_visitante, nombre, apellido);
     END IF;
 
-    -- Insertar el QR generado
+    -- Insertar el QR generado en la tabla
     INSERT INTO codigoqr (cedula_visitante, cedula_propietario, fecha_inicio, fecha_fin)
     VALUES (cedula_visitante, cedula_propietario, fecha_visita, fecha_fin);
-END; //
+
+    -- Si todo es exitoso, confirmar la transacción
+    COMMIT;
+END //
+
 DELIMITER ;
 
 -- SP PARA CREAR AUTORIZACIONES DE LOS PROPIETARIOS
@@ -40,6 +55,15 @@ CREATE PROCEDURE insertar_y_generar_autorizacion(
     IN fecha_fin DATE
 )
 BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- Si ocurre un error, revertir todas las operaciones
+        ROLLBACK;
+    END;
+    
+    -- Iniciar una transacción
+    START TRANSACTION;
+    
     -- Verificar si el visitante existe
     IF NOT EXISTS (SELECT 1 FROM visitante WHERE numero_de_cedula = cedula_visitante) THEN
         -- Insertar un nuevo visitante
@@ -50,7 +74,9 @@ BEGIN
     -- Insertar la autorización en la tabla preautorizacion
     INSERT INTO preautorizacion (cedula_guardia, cedula_visitante, cedula_propietario, fecha_inicio, fecha_fin)
     VALUES (cedula_guardia, cedula_visitante, cedula_propietario, fecha_visita, fecha_fin);
+
+    -- Si todo es exitoso, confirmar la transacción
+    COMMIT;
 END //
 
 DELIMITER ;
-
