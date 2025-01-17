@@ -114,7 +114,6 @@ def insertar_y_generar_qr(cedula_visitante, cedula_propietario, nombre, apellido
     except pymysql.MySQLError as e:
         print(Fore.RED + f"Error en el procedimiento almacenado: {e}")
 
-
 def insertar_black_list(cedula_visitante, codigo_catastral):
     # Query para verificar si el visitante existe
     check_query = "SELECT 1 FROM visitante WHERE numero_de_cedula = '{}'".format(cedula_visitante)
@@ -147,37 +146,19 @@ def insertar_black_list(cedula_visitante, codigo_catastral):
     except Exception as e:
         print(Fore.RED + f"Error: {e}")
 
-def insertar_y_generar_autorizacion(cedula_guardia,cedula_visitante,cedula_propietario,nombre,apellido,fecha_visita,fecha_fin):
-    # Query para verificar si el visitante existe
-    check_query = "SELECT 1 FROM visitante WHERE numero_de_cedula = '{}'".format(cedula_visitante)
-    
-    # Query para insertar un nuevo visitante si no existe
-    insert_visitante_query = "INSERT INTO visitante VALUES ('{}', '{}', '{}')".format(cedula_visitante,nombre,apellido)
-    
-    # Query para insertar la autorizacion generada
-    insert_query_at = "INSERT INTO preautorizacion (cedula_guardia, cedula_visitante, cedula_propietario, fecha_inicio, fecha_fin) VALUES ('{}', '{}', '{}', '{}', '{}')".format(cedula_guardia,cedula_visitante,cedula_propietario,fecha_visita,fecha_fin)
-    
+def insertar_y_generar_autorizacion(cedula_guardia, cedula_visitante, cedula_propietario, nombre, apellido, fecha_visita, fecha_fin):
     try:
-        # Verificar si el visitante existe
-        cur.execute(check_query)
-        rows = cur.fetchall()
-        if rows:
-            print(Fore.YELLOW + "El visitante ya existe.")
-
-            # Insertar el autorizacion en la tabla
-            ejecutar_query(insert_query_at)
-            print(Fore.GREEN + "La autorizacion ha sido generada y almacenada en la base de datos.")
-        else:
-            # Si no existe, insertamos al visitante
-            ejecutar_query(insert_visitante_query)
-            print(Fore.GREEN + "Visitante insertado exitosamente.")
-            
-            # Insertar el autorizacion en la tabla
-            ejecutar_query(insert_query_at)
-            print(Fore.GREEN + "La autorizacion ha sido generada y almacenada en la base de datos.")
+        # Llamar al procedimiento almacenado
+        cur.callproc('insertar_y_generar_autorizacion', 
+                     (cedula_guardia, cedula_visitante, cedula_propietario, nombre, apellido, fecha_visita, fecha_fin))
         
-    except Exception as e:
-        print(Fore.RED + f"Error: {e}")
+        # Confirmar que la transacción se ha realizado
+        connection.commit()
+        
+        print(Fore.GREEN + "Visitante y autorización han sido gestionados correctamente.")
+    except pymysql.MySQLError as e:
+        print(Fore.RED + f"Error en el procedimiento almacenado: {e}")
+
 
 valido = True
 while valido:
