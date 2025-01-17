@@ -13,18 +13,35 @@ def main():
         try:
             op = int(input(Fore.GREEN + "Escoja una opción: "))
             if op == 1:  # Modo Visitante
-                clear_screen()
+                  clear_screen()
                 menu_visitante()
-                
                 opv = int(input("Escoja una opción: "))
                 if opv == 1:
-                    mostrar_tabla("SELECT * FROM visitante LIMIT 10;", ["Número de cédula", "Nombre", "Apellido"])
+                        cedula_visitante = input(Fore.LIGHTGREEN_EX +"Ingrese su cedula: ")
+                        manzana = input(Fore.BLUE + "Ingrese la manzana a la que se dirige: ")
+                        villa = input(Fore.BLUE + "Ingrese la villa a la que se dirige: ")
+                        print(Fore.RED + "El guardia esta llamando...")
+                        pase = rd.randint(0,1)
+                        time.sleep(5)
+                        if pase == 0:
+                            print('Lo lamento no puede ingresar')
+                        else:
+                            hora= datetime.now().strftime("%H:%M:%S")
+                            fecha= datetime.now().strftime('%Y-%m-%d')
+                            querycodigo_catastral = "SELECT * FROM casa WHERE manzana = %s AND villa = %s"
+                            codigo_catastral = execute_query(querycodigo_catastral, (manzana, villa))
+                            query_autorizacionguardia = "INSERT INTO autorizacionguardia (cedula_visitante, codigo_catastral, hora, fecha) VALUES (%s,%s,%s,%s)"
+                            execute_query(query_autorizacionguardia,  (cedula_visitante,codigo_catastral,hora,fecha) )
+                            print(Fore.GREEN + "Puede ingresar")
+
                 elif opv == 2:
-                    mostrar_tabla("SELECT * FROM codigoqr LIMIT 10;", ["ID", "Código"])
-                elif opv == 3:
-                    mostrar_tabla("SELECT numero_de_cedula, correo, nombre, apellido, telefono FROM guardia LIMIT 10;", ["Número de cédula", "Correo", "Nombre", "Apellido", "Teléfono"])
-                elif opv == 4:
-                    mostrar_tabla("SELECT v.nombre, v.apellido, ag.cedula_guardia, ag.hora, ag.fecha FROM autorizacionguardia ag JOIN visitante v ON ag.cedula_visitante = v.numero_de_cedula WHERE ag.fecha = '2024-03-03';", ["Nombre", "Apellido", "Cédula Guardia", "Hora", "Fecha"])
+                        codigo_qr = input("Ingrese el id de codigoqr: ")
+                        query_codigo_qr = 'SELECT id FROM codigoqr WHERE id = %s'
+                        pase = execute_query(query_codigo_qr, codigo_qr)
+                        if pase:
+                            print(Fore.GREEN + "Puede Ingresar")
+                        else:
+                            print("Codigo qr invalido")
             elif op == 2:  # Modo Propietario
                 clear_screen()
                 menu_propietario()
