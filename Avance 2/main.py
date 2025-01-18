@@ -75,8 +75,6 @@ def main():
                     fecha_fin = input(Fore.BLUE + "Ingrese la fecha fin de la visita en formato AAAA-MM-DD: ")
                     insertar_y_generar_autorizacion(cedula_guardia, cedula_visitante, cedula, nombre, apellido, fecha_inicio, fecha_fin)
                 elif opr == 8:
-                    codigo_catastral = execute_query("SELECT codigo_catastral FROM casa WHERE numero_de_cedula = %s;", (cedula,))[0][0]
-                    print(codigo_catastral)
                     cedula_guardia = "0901556789"
                     cedula_visitante = input(Fore.BLUE + "Ingrese la cedula del visitante: ")
                     nombre = input(Fore.BLUE + "Ingrese el nombre del visitante: ")
