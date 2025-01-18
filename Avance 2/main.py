@@ -1,4 +1,6 @@
+import time
 import datetime
+import random as rd
 from colorama import Fore
 
 from database import execute_query
@@ -13,18 +15,20 @@ def main():
         try:
             op = int(input(Fore.GREEN + "Escoja una opción: "))
             if op == 1:  # Modo Visitante
-                  clear_screen()
+                clear_screen()
                 menu_visitante()
                 opv = int(input("Escoja una opción: "))
                 if opv == 1:
                         cedula_visitante = input(Fore.LIGHTGREEN_EX +"Ingrese su cedula: ")
                         manzana = input(Fore.BLUE + "Ingrese la manzana a la que se dirige: ")
                         villa = input(Fore.BLUE + "Ingrese la villa a la que se dirige: ")
-                        print(Fore.RED + "El guardia esta llamando...")
+                        clear_screen()
+                        print(Fore.MAGENTA + "El guardia esta llamando...\n")
                         pase = rd.randint(0,1)
                         time.sleep(5)
                         if pase == 0:
                             print('Lo lamento no puede ingresar')
+                            time.sleep(2)
                         else:
                             hora= datetime.now().strftime("%H:%M:%S")
                             fecha= datetime.now().strftime('%Y-%m-%d')
@@ -33,7 +37,7 @@ def main():
                             query_autorizacionguardia = "INSERT INTO autorizacionguardia (cedula_visitante, codigo_catastral, hora, fecha) VALUES (%s,%s,%s,%s)"
                             execute_query(query_autorizacionguardia,  (cedula_visitante,codigo_catastral,hora,fecha) )
                             print(Fore.GREEN + "Puede ingresar")
-
+                            time.sleep(2)
                 elif opv == 2:
                         codigo_qr = input("Ingrese el id de codigoqr: ")
                         query_codigo_qr = 'SELECT id FROM codigoqr WHERE id = %s'
