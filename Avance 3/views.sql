@@ -27,7 +27,7 @@ END//
 DELIMITER ;
 
 Delimiter//
-CREATE PROCEDURE obtenerHistorialQR(IN cedula_propietario char(10))
+CREATE PROCEDURE obtenerHistorialCodigoQR(IN cedula_propietario char(10))
 BEGIN
 SELECT  v.nombre "Nombre visitante" , v.apellido "Apellido visitante", qr.fecha_inicio, qr.fecha_fin, c.codigo_catastral
 from codigoqr qr inner join visitante v on v.numero_de_cedula = qr.cedula_visitante 
@@ -39,7 +39,7 @@ DELIMITER ;
 
 
 DELIMITER//
-CREATE PROCEDURE obtenerHistorialPagos(IN cedula_propietario char(10))
+CREATE PROCEDURE obtenerHistorialDePagos(IN cedula_propietario char(10))
 BEGIN 
 Select concat(a.nombre," ",a.apellido) "Nombre Administrador", concat(pr.nombre," ",pr.apellido) "Nombre Propietario", pa.fecha_pago Fecha, pa.monto Monto
 FROM pagos pa join administrador a on pa.cedula_administrador = a.numero_de_cedula join propietario pr on pr.numero_de_cedula = pa.cedula_propietario
