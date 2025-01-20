@@ -233,3 +233,25 @@ Este trigger se activa antes de insertar un nuevo registro en la tabla `autoriza
 - Implementa una capa de seguridad adicional
 - Previene autorizaciones a visitantes en lista negra
 - Automatiza la validación de restricciones de acceso
+
+
+# PERMISOS DE USUARIOS EN EL SISTEMA
+
+La siguiente tabla muestra los permisos asignados a cada tipo de usuario en el sistema:
+
+| Objeto/Usuario          | Propietario    | Visitante      | Residente | Guardia        | Administrador |
+|------------------------ |-------------   |--------------- |-----------|--------------  |---------------|
+| propietario             | SELECT, INSERT | -              | -         | -              | ALL           |
+| casa                    | SELECT, INSERT | -              | -         | -              | ALL           |
+| visitante               | -              | SELECT, INSERT | -         | -              | ALL           |
+| lista_negra             | -              | SELECT         | -         | -              | ALL           |
+| autorizacionguardia     | -              | -              | -         | SELECT, UPDATE | ALL           |
+| codigoqr                | -              | -              | -         | SELECT, INSERT | ALL           |
+| HistorialPreAutorizados | SELECT         | -              | -         | -              | ALL           |
+| HistorialDePagos        | -              | -              | -         | SELECT         | ALL           |
+| insertar_y_generar_qr   | -              | -              | EXECUTE   | -              | ALL           |
+| insertar_y_generar_autorizacion| -       | -              | EXECUTE   | -              | ALL           |
+
+**Notas:**
+- (-) indica que no tiene permisos sobre ese objeto
+- El administrador tiene privilegios completos (ALL) sobre toda la base de datos
