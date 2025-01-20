@@ -159,7 +159,7 @@ Este proyecto consta de 3 views:
 2. **HistorialPreAutorizados**  
    Vista diseñada para gestionar y presentar el historial de preautorizaciones.
 
-3. **HistoriaCodigoQR**  
+3. **HistorialCodigoQR**  
    Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
 
 
