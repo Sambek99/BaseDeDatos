@@ -155,7 +155,7 @@ La aplicación incluye manejo de errores para gestionar excepciones y proporcion
 ## Conclusión
 Este manual proporciona una guía completa para ejecutar y utilizar la aplicación. Siga las instrucciones cuidadosamente para asegurar una experiencia fluida. Si encuentra algún problema, consulte los mensajes de error para obtener orientación.
 
-# VIEWS
+## VIEWS
 
 Este proyecto consta de 3 views:
 
