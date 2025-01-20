@@ -47,8 +47,19 @@ BIENVENIDO A LA CIUDADELA
 Seleccione una opción ingresando el número correspondiente.
 
 ### Modo Visitante
-TODO:
-
+Si selecciona "MODO VISITANTE", se le abrira el siguiente menu de opciones:
+```
+Modo Visitante: Elija la tabla que desea consultar
++--------+----------------------------------+
+| Opción | Descripción                      |
++--------+----------------------------------+
+| 1      | ANUNCIARSE MEDIANTE EL GUARDIA   |
+| 2      | CODIGO QR                        |
++--------+----------------------------------+
+Seleccione una opccion para ingresar a la ciudadela
+```
+Con la opcion "ANUNCIARCE MEDIANTE EL GUARDIA" se le pedira que ingrese su cedula y diga su manzana y villa, posteriormente se llamara a la casa para validad su ingreso.
+Con la opcion "Codigo QR" se le pedira que ingrese el codigo y se validara que este vigente.
 ### Modo Propietario
 Si selecciona "MODO PROPIETARIO", se le pedirá que ingrese su correo electrónico y contraseña. Después de la autenticación exitosa, verá el siguiente menú:
 ```
@@ -138,6 +149,20 @@ La aplicación incluye varias funciones utilitarias para manejar tareas comunes:
 - **insertar_blackl_list**: Inserta un visitante en la lista negra.
 - **insertar_y_generar_autorizacion**: Inserta un visitante y genera una autorización.
 
+## VIEWS
+
+Este proyecto consta de 3 views:
+
+1. **HistorialDePagos**  
+   Vista destinada a manejar y mostrar el historial de pagos realizados.
+
+2. **HistorialPreAutorizados**  
+   Vista diseñada para gestionar y presentar el historial de preautorizaciones.
+
+3. **HistorialCodigoQR**  
+   Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
+
+
 ## Manejo de Errores
 La aplicación incluye manejo de errores para gestionar excepciones y proporcionar mensajes de error significativos. Si ocurre un error, se mostrará en texto rojo.
 
@@ -146,6 +171,7 @@ Este manual proporciona una guía completa para ejecutar y utilizar la aplicaci�
 
 
 # DESCRIPCIÓN DE CODIGOS SQL
+
 
 # Stored Procedures para Gestión de Visitantes y Generación de Códigos QR en la Ciudadela
 
