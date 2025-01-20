@@ -155,8 +155,22 @@ La aplicación incluye manejo de errores para gestionar excepciones y proporcion
 ## Conclusión
 Este manual proporciona una guía completa para ejecutar y utilizar la aplicación. Siga las instrucciones cuidadosamente para asegurar una experiencia fluida. Si encuentra algún problema, consulte los mensajes de error para obtener orientación.
 
+# VIEWS
+
+Este proyecto consta de 3 views:
+
+1. **HistorialDePagos**  
+   Vista destinada a manejar y mostrar el historial de pagos realizados.
+
+2. **HistorialPreAutorizados**  
+   Vista diseñada para gestionar y presentar el historial de preautorizaciones.
+
+3. **HistoriaCodigoQR**  
+   Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
+
 
 # DESCRIPCIÓN DE CODIGOS SQL
+
 
 # Stored Procedures para Gestión de Visitantes y Generación de Códigos QR en la Ciudadela
 
