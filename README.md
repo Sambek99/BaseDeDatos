@@ -57,6 +57,7 @@ Modo Visitante: Elija la tabla que desea consultar
 | 2      | CODIGO QR                        |
 +--------+----------------------------------+
 Seleccione una opccion para ingresar a la ciudadela
+```
 Con la opcion "ANUNCIARCE MEDIANTE EL GUARDIA" se le pedira que ingrese su cedula y diga su manzana y villa, posteriormente se llamara a la casa para validad su ingreso.
 Con la opcion "Codigo QR" se le pedira que ingrese el codigo y se validara que este vigente.
 ### Modo Propietario
