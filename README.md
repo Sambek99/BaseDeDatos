@@ -47,8 +47,18 @@ BIENVENIDO A LA CIUDADELA
 Seleccione una opción ingresando el número correspondiente.
 
 ### Modo Visitante
-TODO:
-
+Si selecciona "MODO VISITANTE", se le abrira el siguiente menu de opciones:
+```
+Modo Visitante: Elija la tabla que desea consultar
++--------+----------------------------------+
+| Opción | Descripción                      |
++--------+----------------------------------+
+| 1      | ANUNCIARSE MEDIANTE EL GUARDIA   |
+| 2      | CODIGO QR                        |
++--------+----------------------------------+
+Seleccione una opccion para ingresar a la ciudadela
+Con la opcion "ANUNCIARCE MEDIANTE EL GUARDIA" se le pedira que ingrese su cedula y diga su manzana y villa, posteriormente se llamara a la casa para validad su ingreso.
+Con la opcion "Codigo QR" se le pedira que ingrese el codigo y se validara que este vigente.
 ### Modo Propietario
 Si selecciona "MODO PROPIETARIO", se le pedirá que ingrese su correo electrónico y contraseña. Después de la autenticación exitosa, verá el siguiente menú:
 ```
