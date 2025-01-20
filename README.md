@@ -175,15 +175,14 @@ Este proyecto tiene 4 views, ademas de esto cada una cuenta con un procedure esp
     
 3. **HistorialCodigoQR**  
    Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
-
     **ObtenerHistorialCodigoQR(cedula_propietario)**
-
     **Parámetro de Entrada:**
         - `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
+   
     **Funcionamiento:**
         Muestra un historial de los codigosQR con el nombre del visitante el apellido del mismo y la fecha.
    
-4. **ListaNegra**
+5. **ListaNegra**
     Vista utilizada para visualizar y el nombre de las personas en la lista negra con el codigo catastral responsable de que esa persona este ahí.
    
     **ObtenerListaNegra(codigo_catastral)**
