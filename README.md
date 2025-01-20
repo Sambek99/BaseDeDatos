@@ -151,47 +151,65 @@ La aplicación incluye varias funciones utilitarias para manejar tareas comunes:
 
 ## Views
 
-Este proyecto tiene 4 views, ademas de esto cada una cuenta con un procedure especifico con el pre-fijo obtener y su parametro especifico:
+Este proyecto tiene 4 vistas, cada una de las cuales cuenta con un procedimiento específico con el prefijo `Obtener` y su parámetro correspondiente:
 
-1. **HistorialDePagos**  
-   Vista destinada a manejar y mostrar el historial de pagos realizados.
-   
-    **ObtenerHistorialDePagos(cedula_propietario)**
+---
 
-    **Parámetro de Entrada:**
-        - `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
-    **Funcionamiento:**
-        Muestra un historial de pagos de los pagos del propietario ingresado a traves de su numero de cedula  
+### 1. **HistorialDePagos**
+Vista destinada a manejar y mostrar el historial de pagos realizados.
 
-2. **HistorialPreAutorizados**  
-   Vista diseñada para gestionar y presentar el historial de preautorizaciones.
+- **Procedimiento:**  
+  `ObtenerHistorialDePagos(cedula_propietario)`
 
-    **ObtenerHistorialPreautorizados(cedula_propietario)**
+- **Parámetro de Entrada:**  
+  - `cedula_propietario` (CHAR(10)): Cédula del propietario cuyo historial de pagos se desea consultar.
 
-    **Parámetro de Entrada:**
-        - `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
-    **Funcionamiento:**
-        - Muestra un historial de los Preautorizados con el nombre del visitante el apellido del mismo y la fecha.
-    
-3. **HistorialCodigoQR**  
-   Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
-    **ObtenerHistorialCodigoQR(cedula_propietario)**
-    **Parámetro de Entrada:**
-        - `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
-   
-    **Funcionamiento:**
-        Muestra un historial de los codigosQR con el nombre del visitante el apellido del mismo y la fecha.
-   
-5. **ListaNegra**
-    Vista utilizada para visualizar y el nombre de las personas en la lista negra con el codigo catastral responsable de que esa persona este ahí.
-   
-    **ObtenerListaNegra(codigo_catastral)**
+- **Funcionamiento:**  
+  Muestra el historial de pagos realizados por el propietario identificado mediante su número de cédula.
 
-    **Parámetro de Entrada:**
-        - `codigo_catastral` (CHAR(25)): Codigo de la casa de la que se quiere ver la lista negra.
-      **Funcionamiento:**
-          Muestra las personas en la lista negra de esa casa.
-   
+---
+
+### 2. **HistorialPreAutorizados**
+Vista diseñada para gestionar y presentar el historial de preautorizaciones.
+
+- **Procedimiento:**  
+  `ObtenerHistorialPreautorizados(cedula_propietario)`
+
+- **Parámetro de Entrada:**  
+  - `cedula_propietario` (CHAR(10)): Cédula del propietario cuyo historial de preautorizados se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra un historial de las preautorizaciones, incluyendo el nombre, apellido del visitante y la fecha correspondiente.
+
+---
+
+### 3. **HistorialCodigoQR**
+Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
+
+- **Procedimiento:**  
+  `ObtenerHistorialCodigoQR(cedula_propietario)`
+
+- **Parámetro de Entrada:**  
+  - `cedula_propietario` (CHAR(10)): Cédula del propietario cuyo historial de códigos QR se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra un historial de los códigos QR generados o utilizados, incluyendo el nombre, apellido del visitante y la fecha correspondiente.
+
+---
+
+### 4. **ListaNegra**
+Vista utilizada para visualizar a las personas incluidas en la lista negra y el código catastral de la vivienda responsable.
+
+- **Procedimiento:**  
+  `ObtenerListaNegra(codigo_catastral)`
+
+- **Parámetro de Entrada:**  
+  - `codigo_catastral` (CHAR(25)): Código catastral de la vivienda cuya lista negra se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra las personas incluidas en la lista negra de una vivienda específica, vinculadas al código catastral proporcionado.
+
+---
 
 
 ## Manejo de Errores
