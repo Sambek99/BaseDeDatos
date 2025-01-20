@@ -149,12 +149,6 @@ La aplicación incluye varias funciones utilitarias para manejar tareas comunes:
 - **insertar_blackl_list**: Inserta un visitante en la lista negra.
 - **insertar_y_generar_autorizacion**: Inserta un visitante y genera una autorización.
 
-## Manejo de Errores
-La aplicación incluye manejo de errores para gestionar excepciones y proporcionar mensajes de error significativos. Si ocurre un error, se mostrará en texto rojo.
-
-## Conclusión
-Este manual proporciona una guía completa para ejecutar y utilizar la aplicación. Siga las instrucciones cuidadosamente para asegurar una experiencia fluida. Si encuentra algún problema, consulte los mensajes de error para obtener orientación.
-
 ## VIEWS
 
 Este proyecto consta de 3 views:
@@ -167,6 +161,13 @@ Este proyecto consta de 3 views:
 
 3. **HistoriaCodigoQR**  
    Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
+
+
+## Manejo de Errores
+La aplicación incluye manejo de errores para gestionar excepciones y proporcionar mensajes de error significativos. Si ocurre un error, se mostrará en texto rojo.
+
+## Conclusión
+Este manual proporciona una guía completa para ejecutar y utilizar la aplicación. Siga las instrucciones cuidadosamente para asegurar una experiencia fluida. Si encuentra algún problema, consulte los mensajes de error para obtener orientación.
 
 
 # DESCRIPCIÓN DE CODIGOS SQL
