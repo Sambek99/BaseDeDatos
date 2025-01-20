@@ -156,42 +156,42 @@ Este proyecto tiene 4 views, ademas de esto cada una cuenta con un procedure esp
 1. **HistorialDePagos**  
    Vista destinada a manejar y mostrar el historial de pagos realizados.
    
-**ObtenerHistorialDePagos(cedula_propietario)**
+    **ObtenerHistorialDePagos(cedula_propietario)**
 
-**Parámetro de Entrada:**
-- `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
-**Funcionamiento:**
-    Muestra un historial de pagos de los pagos del propietario ingresado a traves de su numero de cedula  
+    **Parámetro de Entrada:**
+        - `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
+    **Funcionamiento:**
+        Muestra un historial de pagos de los pagos del propietario ingresado a traves de su numero de cedula  
 
 2. **HistorialPreAutorizados**  
    Vista diseñada para gestionar y presentar el historial de preautorizaciones.
 
-**ObtenerHistorialPreautorizados(cedula_propietario)**
+    **ObtenerHistorialPreautorizados(cedula_propietario)**
 
-**Parámetro de Entrada:**
-- `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
-**Funcionamiento:**
-    Muestra un historial de los Preautorizados con el nombre del visitante el apellido del mismo y la fecha.
+    **Parámetro de Entrada:**
+        - `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
+    **Funcionamiento:**
+        - Muestra un historial de los Preautorizados con el nombre del visitante el apellido del mismo y la fecha.
     
 3. **HistorialCodigoQR**  
    Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
 
-**ObtenerHistorialCodigoQR(cedula_propietario)**
+    **ObtenerHistorialCodigoQR(cedula_propietario)**
 
-**Parámetro de Entrada:**
-- `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
-**Funcionamiento:**
-    Muestra un historial de los codigosQR con el nombre del visitante el apellido del mismo y la fecha.
+    **Parámetro de Entrada:**
+        - `cedula_propietario` (CHAR(10)): Cédula del propietario del que se quiere ver el historial.
+    **Funcionamiento:**
+        Muestra un historial de los codigosQR con el nombre del visitante el apellido del mismo y la fecha.
    
 4. **ListaNegra**
     Vista utilizada para visualizar y el nombre de las personas en la lista negra con el codigo catastral responsable de que esa persona este ahí.
    
-**ObtenerListaNegra(codigo_catastral)**
+    **ObtenerListaNegra(codigo_catastral)**
 
-**Parámetro de Entrada:**
-- `codigo_catastral` (CHAR(25)): Codigo de la casa de la que se quiere ver la lista negra.
-  **Funcionamiento:**
-  Muestra las personas en la lista negra de esa casa.
+    **Parámetro de Entrada:**
+        - `codigo_catastral` (CHAR(25)): Codigo de la casa de la que se quiere ver la lista negra.
+      **Funcionamiento:**
+          Muestra las personas en la lista negra de esa casa.
    
 
 
