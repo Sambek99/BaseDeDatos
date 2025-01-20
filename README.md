@@ -47,8 +47,19 @@ BIENVENIDO A LA CIUDADELA
 Seleccione una opción ingresando el número correspondiente.
 
 ### Modo Visitante
-TODO:
-
+Si selecciona "MODO VISITANTE", se le abrira el siguiente menu de opciones:
+```
+Modo Visitante: Elija la tabla que desea consultar
++--------+----------------------------------+
+| Opción | Descripción                      |
++--------+----------------------------------+
+| 1      | ANUNCIARSE MEDIANTE EL GUARDIA   |
+| 2      | CODIGO QR                        |
++--------+----------------------------------+
+Seleccione una opccion para ingresar a la ciudadela
+```
+Con la opcion "ANUNCIARCE MEDIANTE EL GUARDIA" se le pedira que ingrese su cedula y diga su manzana y villa, posteriormente se llamara a la casa para validad su ingreso.
+Con la opcion "Codigo QR" se le pedira que ingrese el codigo y se validara que este vigente.
 ### Modo Propietario
 Si selecciona "MODO PROPIETARIO", se le pedirá que ingrese su correo electrónico y contraseña. Después de la autenticación exitosa, verá el siguiente menú:
 ```
@@ -138,8 +149,184 @@ La aplicación incluye varias funciones utilitarias para manejar tareas comunes:
 - **insertar_blackl_list**: Inserta un visitante en la lista negra.
 - **insertar_y_generar_autorizacion**: Inserta un visitante y genera una autorización.
 
+## Views
+
+Este proyecto tiene 4 vistas, cada una de las cuales cuenta con un procedimiento específico con el prefijo `Obtener` y su parámetro correspondiente:
+
+---
+
+### 1. **HistorialDePagos**
+Vista destinada a manejar y mostrar el historial de pagos realizados.
+
+- **Procedimiento:**  
+  `ObtenerHistorialDePagos(cedula_propietario)`
+
+- **Parámetro de Entrada:**  
+  - `cedula_propietario` (CHAR(10)): Cédula del propietario cuyo historial de pagos se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra el historial de pagos realizados por el propietario identificado mediante su número de cédula.
+
+---
+
+### 2. **HistorialPreAutorizados**
+Vista diseñada para gestionar y presentar el historial de preautorizaciones.
+
+- **Procedimiento:**  
+  `ObtenerHistorialPreautorizados(cedula_propietario)`
+
+- **Parámetro de Entrada:**  
+  - `cedula_propietario` (CHAR(10)): Cédula del propietario cuyo historial de preautorizados se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra un historial de las preautorizaciones, incluyendo el nombre, apellido del visitante y la fecha correspondiente.
+
+---
+
+### 3. **HistorialCodigoQR**
+Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
+
+- **Procedimiento:**  
+  `ObtenerHistorialCodigoQR(cedula_propietario)`
+
+- **Parámetro de Entrada:**  
+  - `cedula_propietario` (CHAR(10)): Cédula del propietario cuyo historial de códigos QR se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra un historial de los códigos QR generados o utilizados, incluyendo el nombre, apellido del visitante y la fecha correspondiente.
+
+---
+
+### 4. **ListaNegra**
+Vista utilizada para visualizar a las personas incluidas en la lista negra y el código catastral de la vivienda responsable.
+
+- **Procedimiento:**  
+  `ObtenerListaNegra(codigo_catastral)`
+
+- **Parámetro de Entrada:**  
+  - `codigo_catastral` (CHAR(25)): Código catastral de la vivienda cuya lista negra se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra las personas incluidas en la lista negra de una vivienda específica, vinculadas al código catastral proporcionado.
+
+---
+
+
 ## Manejo de Errores
 La aplicación incluye manejo de errores para gestionar excepciones y proporcionar mensajes de error significativos. Si ocurre un error, se mostrará en texto rojo.
 
 ## Conclusión
 Este manual proporciona una guía completa para ejecutar y utilizar la aplicación. Siga las instrucciones cuidadosamente para asegurar una experiencia fluida. Si encuentra algún problema, consulte los mensajes de error para obtener orientación.
+
+
+# DESCRIPCIÓN DE CODIGOS SQL
+
+
+# Stored Procedures para Gestión de Visitantes y Generación de Códigos QR en la Ciudadela
+
+Este repositorio contiene procedimientos almacenados para gestionar el registro de visitantes, la generación de códigos QR y la creación de autorizaciones de acceso en la base de datos `ciudadela`. A continuación, se describen los stored procedures disponibles y su uso.
+
+## Procedimientos Almacenados
+
+### 1. `insertar_y_generar_qr`
+
+Este procedimiento se encarga de verificar si un visitante ya existe en la base de datos y, si no es así, lo registra. Luego, genera un código QR para el visitante, con una validez de un día desde la fecha de la visita.
+
+**Parámetros de Entrada:**
+- `cedula_visitante` (CHAR(10)): Cédula del visitante.
+- `cedula_propietario` (CHAR(10)): Cédula del propietario que autoriza la visita.
+- `nombre` (VARCHAR(50)): Nombre del visitante.
+- `apellido` (VARCHAR(50)): Apellido del visitante.
+- `fecha_visita` (DATE): Fecha de la visita.
+
+**Funcionamiento:**
+1. **Inicio de Transacción:** Se inicia una transacción para asegurar la consistencia de los datos.
+2. **Verificación del Visitante:** Se verifica si el visitante ya está registrado. Si no, se inserta un nuevo registro en la tabla `visitante`.
+3. **Cálculo de Fecha de Fin:** Se calcula `fecha_fin` como un día después de `fecha_visita`.
+4. **Inserción en `codigoqr`:** Se inserta un nuevo registro en la tabla `codigoqr` con los datos del visitante y las fechas de inicio y fin.
+5. **Manejo de Errores:** Si ocurre un error, se revierte la transacción.
+6. **Confirmación de Transacción:** Si todo es exitoso, se confirma la transacción (COMMIT).
+
+**Ejemplo de Uso:**
+```sql
+CALL insertar_y_generar_qr('1234567890', '0987654321', 'Juan', 'Pérez', '2025-01-19');
+```
+
+### 2. `insertar_y_generar_autorizacion`
+
+Este procedimiento almacenado se utiliza para crear una autorización de acceso para un visitante. La autorización está vinculada al guardia que aprueba la entrada y al propietario que recibe al visitante. 
+
+**Parámetros de Entrada:**
+- `cedula_guardia` (CHAR(10)): Cédula del guardia encargado de autorizar la entrada.
+- `cedula_visitante` (CHAR(10)): Cédula del visitante que desea ingresar.
+- `cedula_propietario` (CHAR(10)): Cédula del propietario que autoriza la visita.
+- `nombre` (VARCHAR(50)): Nombre del visitante.
+- `apellido` (VARCHAR(50)): Apellido del visitante.
+- `fecha_visita` (DATE): Fecha de inicio de la visita.
+- `fecha_fin` (DATE): Fecha de fin de la visita.
+
+**Funcionamiento:**
+1. **Inicio de Transacción:** Se inicia una transacción para asegurar que todas las operaciones se realicen de manera segura y coherente.
+   
+2. **Verificación del Visitante:** Se verifica si el visitante ya está registrado en la tabla `visitante`. Si no está registrado, se inserta un nuevo registro con la cédula, nombre y apellido del visitante.
+   
+3. **Inserción en `preautorizacion`:** Se inserta un nuevo registro en la tabla `preautorizacion` con los datos del guardia, visitante, propietario, y las fechas de inicio y fin de la visita.
+   
+4. **Manejo de Errores:** Si ocurre un error durante el proceso, se revierte la transacción completa para evitar inconsistencias en la base de datos.
+
+5. **Confirmación de Transacción:** Si todo se ejecuta correctamente, la transacción se confirma (COMMIT), garantizando que los datos se guarden de manera permanente.
+
+**Ejemplo de Uso:**
+```sql
+CALL insertar_y_generar_autorizacion('1122334455', '1234567890', '0987654321', 'Juan', 'Pérez', '2025-01-19', '2025-01-20');
+```
+
+# TRIGGERS EN EL SISTEMA
+
+## 1. Trigger: update_en_mora_on_payment
+Este trigger se activa después de insertar un nuevo registro en la tabla `pagos`.
+
+### Funcionamiento:
+- Se ejecuta automáticamente después de registrar un nuevo pago
+- Actualiza el estado de mora del propietario a FALSE
+- Asegura que el estado de mora se actualice inmediatamente después del pago
+
+### ¿Por qué se creó?
+- Mantiene la consistencia de datos entre pagos y estado de mora
+- Automatiza la actualización del estado del propietario
+- Reduce errores humanos en la gestión de estados de mora
+
+## 2. Trigger: validate_guardia_authorization
+Este trigger se activa antes de insertar un nuevo registro en la tabla `autorizacionguardia`.
+
+### Funcionamiento:
+- Verifica si el visitante está en la lista negra para esa casa específica
+- Si el visitante está en la lista negra, impide la inserción
+- Lanza un error con mensaje específico si la validación falla
+
+### ¿Por qué se creó?
+- Implementa una capa de seguridad adicional
+- Previene autorizaciones a visitantes en lista negra
+- Automatiza la validación de restricciones de acceso
+
+
+# PERMISOS DE USUARIOS EN EL SISTEMA
+
+La siguiente tabla muestra los permisos asignados a cada tipo de usuario en el sistema:
+
+| Objeto/Usuario          | Propietario    | Visitante      | Residente | Guardia        | Administrador |
+|------------------------ |-------------   |--------------- |-----------|--------------  |---------------|
+| propietario             | SELECT, INSERT | -              | -         | -              | ALL           |
+| casa                    | SELECT, INSERT | -              | -         | -              | ALL           |
+| visitante               | -              | SELECT, INSERT | -         | -              | ALL           |
+| lista_negra             | -              | SELECT         | -         | -              | ALL           |
+| autorizacionguardia     | -              | -              | -         | SELECT, UPDATE | ALL           |
+| codigoqr                | -              | -              | -         | SELECT, INSERT | ALL           |
+| HistorialPreAutorizados | SELECT         | -              | -         | -              | ALL           |
+| HistorialDePagos        | -              | -              | -         | SELECT         | ALL           |
+| insertar_y_generar_qr   | -              | -              | EXECUTE   | -              | ALL           |
+| insertar_y_generar_autorizacion| -       | -              | EXECUTE   | -              | ALL           |
+
+**Notas:**
+- (-) indica que no tiene permisos sobre ese objeto
+- El administrador tiene privilegios completos (ALL) sobre toda la base de datos

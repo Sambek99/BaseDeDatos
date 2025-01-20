@@ -14,9 +14,9 @@ GRANT EXECUTE ON ciudadela.insertar_y_generar_autorizacion TO 'residente';
 CREATE USER 'guardia' IDENTIFIED BY 'ContraGuardia';
 GRANT SELECT, UPDATE ON ciudadela.autorizacionguardia TO 'guardia';
 GRANT SELECT, INSERT ON ciudadela.codigoqr TO 'guardia';
+GRANT SELECT ON ciudadela.HistorialDePagos TO 'guardia';
 
 CREATE USER 'administrador' IDENTIFIED BY 'Contramaster';
 GRANT ALL PRIVILEGES ON ciudadela.* TO 'administrador';
-GRANT SELECT ON ciudadela.HistorialDePagos TO 'administrador';
 
 FLUSH PRIVILEGES;
