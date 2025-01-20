@@ -206,4 +206,30 @@ Este procedimiento almacenado se utiliza para crear una autorización de acceso 
 CALL insertar_y_generar_autorizacion('1122334455', '1234567890', '0987654321', 'Juan', 'Pérez', '2025-01-19', '2025-01-20');
 ```
 
+# TRIGGERS EN EL SISTEMA
 
+## 1. Trigger: update_en_mora_on_payment
+Este trigger se activa después de insertar un nuevo registro en la tabla `pagos`.
+
+### Funcionamiento:
+- Se ejecuta automáticamente después de registrar un nuevo pago
+- Actualiza el estado de mora del propietario a FALSE
+- Asegura que el estado de mora se actualice inmediatamente después del pago
+
+### ¿Por qué se creó?
+- Mantiene la consistencia de datos entre pagos y estado de mora
+- Automatiza la actualización del estado del propietario
+- Reduce errores humanos en la gestión de estados de mora
+
+## 2. Trigger: validate_guardia_authorization
+Este trigger se activa antes de insertar un nuevo registro en la tabla `autorizacionguardia`.
+
+### Funcionamiento:
+- Verifica si el visitante está en la lista negra para esa casa específica
+- Si el visitante está en la lista negra, impide la inserción
+- Lanza un error con mensaje específico si la validación falla
+
+### ¿Por qué se creó?
+- Implementa una capa de seguridad adicional
+- Previene autorizaciones a visitantes en lista negra
+- Automatiza la validación de restricciones de acceso
