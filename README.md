@@ -143,3 +143,67 @@ La aplicación incluye manejo de errores para gestionar excepciones y proporcion
 
 ## Conclusión
 Este manual proporciona una guía completa para ejecutar y utilizar la aplicación. Siga las instrucciones cuidadosamente para asegurar una experiencia fluida. Si encuentra algún problema, consulte los mensajes de error para obtener orientación.
+
+
+# DESCRIPCIÓN DE CODIGOS SQL
+
+# Stored Procedures para Gestión de Visitantes y Generación de Códigos QR en la Ciudadela
+
+Este repositorio contiene procedimientos almacenados para gestionar el registro de visitantes, la generación de códigos QR y la creación de autorizaciones de acceso en la base de datos `ciudadela`. A continuación, se describen los stored procedures disponibles y su uso.
+
+## Procedimientos Almacenados
+
+### 1. `insertar_y_generar_qr`
+
+Este procedimiento se encarga de verificar si un visitante ya existe en la base de datos y, si no es así, lo registra. Luego, genera un código QR para el visitante, con una validez de un día desde la fecha de la visita.
+
+**Parámetros de Entrada:**
+- `cedula_visitante` (CHAR(10)): Cédula del visitante.
+- `cedula_propietario` (CHAR(10)): Cédula del propietario que autoriza la visita.
+- `nombre` (VARCHAR(50)): Nombre del visitante.
+- `apellido` (VARCHAR(50)): Apellido del visitante.
+- `fecha_visita` (DATE): Fecha de la visita.
+
+**Funcionamiento:**
+1. **Inicio de Transacción:** Se inicia una transacción para asegurar la consistencia de los datos.
+2. **Verificación del Visitante:** Se verifica si el visitante ya está registrado. Si no, se inserta un nuevo registro en la tabla `visitante`.
+3. **Cálculo de Fecha de Fin:** Se calcula `fecha_fin` como un día después de `fecha_visita`.
+4. **Inserción en `codigoqr`:** Se inserta un nuevo registro en la tabla `codigoqr` con los datos del visitante y las fechas de inicio y fin.
+5. **Manejo de Errores:** Si ocurre un error, se revierte la transacción.
+6. **Confirmación de Transacción:** Si todo es exitoso, se confirma la transacción (COMMIT).
+
+**Ejemplo de Uso:**
+```sql
+CALL insertar_y_generar_qr('1234567890', '0987654321', 'Juan', 'Pérez', '2025-01-19');
+```
+
+### 2. `insertar_y_generar_autorizacion`
+
+Este procedimiento almacenado se utiliza para crear una autorización de acceso para un visitante. La autorización está vinculada al guardia que aprueba la entrada y al propietario que recibe al visitante. 
+
+**Parámetros de Entrada:**
+- `cedula_guardia` (CHAR(10)): Cédula del guardia encargado de autorizar la entrada.
+- `cedula_visitante` (CHAR(10)): Cédula del visitante que desea ingresar.
+- `cedula_propietario` (CHAR(10)): Cédula del propietario que autoriza la visita.
+- `nombre` (VARCHAR(50)): Nombre del visitante.
+- `apellido` (VARCHAR(50)): Apellido del visitante.
+- `fecha_visita` (DATE): Fecha de inicio de la visita.
+- `fecha_fin` (DATE): Fecha de fin de la visita.
+
+**Funcionamiento:**
+1. **Inicio de Transacción:** Se inicia una transacción para asegurar que todas las operaciones se realicen de manera segura y coherente.
+   
+2. **Verificación del Visitante:** Se verifica si el visitante ya está registrado en la tabla `visitante`. Si no está registrado, se inserta un nuevo registro con la cédula, nombre y apellido del visitante.
+   
+3. **Inserción en `preautorizacion`:** Se inserta un nuevo registro en la tabla `preautorizacion` con los datos del guardia, visitante, propietario, y las fechas de inicio y fin de la visita.
+   
+4. **Manejo de Errores:** Si ocurre un error durante el proceso, se revierte la transacción completa para evitar inconsistencias en la base de datos.
+
+5. **Confirmación de Transacción:** Si todo se ejecuta correctamente, la transacción se confirma (COMMIT), garantizando que los datos se guarden de manera permanente.
+
+**Ejemplo de Uso:**
+```sql
+CALL insertar_y_generar_autorizacion('1122334455', '1234567890', '0987654321', 'Juan', 'Pérez', '2025-01-19', '2025-01-20');
+```
+
+
