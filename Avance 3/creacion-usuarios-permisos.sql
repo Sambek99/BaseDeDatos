@@ -2,6 +2,10 @@ CREATE USER 'propietario' IDENTIFIED BY 'Contrapropietario';
 GRANT SELECT, INSERT ON ciudadela.propietario TO 'propietario';
 GRANT SELECT, INSERT ON ciudadela.casa TO 'propietario';
 GRANT SELECT ON ciudadela.HistorialPreAutorizados TO 'propietario';
+GRANT EXECUTE ON PROCEDURE obtenerHistorialPreautorizados to 'propietario';
+GRANT EXECUTE ON PROCEDURE obtenerHistorialCodigoQR to 'propietario';
+GRANT EXECUTE ON PROCEDURE obtenerListaNegra to 'propietario';
+GRANT EXECUTE ON PROCEDURE obtenerHistorialPagos to 'propietario';
 
 CREATE USER 'visitante' IDENTIFIED BY 'ContrasenaVisitante';
 GRANT SELECT, INSERT ON ciudadela.visitante TO 'visitante';
