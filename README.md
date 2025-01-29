@@ -149,18 +149,67 @@ La aplicación incluye varias funciones utilitarias para manejar tareas comunes:
 - **insertar_blackl_list**: Inserta un visitante en la lista negra.
 - **insertar_y_generar_autorizacion**: Inserta un visitante y genera una autorización.
 
-## VIEWS
+## Views
 
-Este proyecto consta de 3 views:
+Este proyecto tiene 4 vistas, cada una de las cuales cuenta con un procedimiento específico con el prefijo `Obtener` y su parámetro correspondiente:
 
-1. **HistorialDePagos**  
-   Vista destinada a manejar y mostrar el historial de pagos realizados.
+---
 
-2. **HistorialPreAutorizados**  
-   Vista diseñada para gestionar y presentar el historial de preautorizaciones.
+### 1. **HistorialDePagos**
+Vista destinada a manejar y mostrar el historial de pagos realizados.
 
-3. **HistorialCodigoQR**  
-   Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
+- **Procedimiento:**  
+  `ObtenerHistorialDePagos(cedula_propietario)`
+
+- **Parámetro de Entrada:**  
+  - `cedula_propietario` (CHAR(10)): Cédula del propietario cuyo historial de pagos se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra el historial de pagos realizados por el propietario identificado mediante su número de cédula.
+
+---
+
+### 2. **HistorialPreAutorizados**
+Vista diseñada para gestionar y presentar el historial de preautorizaciones.
+
+- **Procedimiento:**  
+  `ObtenerHistorialPreautorizados(cedula_propietario)`
+
+- **Parámetro de Entrada:**  
+  - `cedula_propietario` (CHAR(10)): Cédula del propietario cuyo historial de preautorizados se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra un historial de las preautorizaciones, incluyendo el nombre, apellido del visitante y la fecha correspondiente.
+
+---
+
+### 3. **HistorialCodigoQR**
+Vista utilizada para visualizar y trabajar con el historial de códigos QR generados o utilizados.
+
+- **Procedimiento:**  
+  `ObtenerHistorialCodigoQR(cedula_propietario)`
+
+- **Parámetro de Entrada:**  
+  - `cedula_propietario` (CHAR(10)): Cédula del propietario cuyo historial de códigos QR se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra un historial de los códigos QR generados o utilizados, incluyendo el nombre, apellido del visitante y la fecha correspondiente.
+
+---
+
+### 4. **ListaNegra**
+Vista utilizada para visualizar a las personas incluidas en la lista negra y el código catastral de la vivienda responsable.
+
+- **Procedimiento:**  
+  `ObtenerListaNegra(codigo_catastral)`
+
+- **Parámetro de Entrada:**  
+  - `codigo_catastral` (CHAR(25)): Código catastral de la vivienda cuya lista negra se desea consultar.
+
+- **Funcionamiento:**  
+  Muestra las personas incluidas en la lista negra de una vivienda específica, vinculadas al código catastral proporcionado.
+
+---
 
 
 ## Manejo de Errores
