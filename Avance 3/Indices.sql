@@ -17,7 +17,7 @@ CREATE INDEX idx_autorizacionguardia_fecha ON autorizacionguardia(fecha, cedula_
 -- Optimiza la búsqueda por cedula_propietario y filtra pagos del año 2024.
 -- Facilita el LEFT JOIN con la tabla propietario.
 
-CREATE INDEX idx_pagos_fecha_propietario ON pagos(cedula_propietario, fecha_pago, id_pago);
+CREATE INDEX idx_pagos_fecha_propietario ON pagos(cedula_propietario, fecha_pago, cedula_administrador);
 CREATE INDEX idx_propietario_cedula ON propietario(numero_de_cedula, nombre, apellido);
 
 -- 4. 
@@ -33,5 +33,5 @@ CREATE INDEX idx_residente_codigo_casa ON residente(codigo_catastral, nombre);
 -- Optimiza el filtro por mes (MONTH(pa.fecha_pago) = 3) y el LEFT JOIN.
 -- Mejora la recuperación de propietarios que no tienen pagos asociados.
 
-CREATE INDEX idx_pagos_mes ON pagos(cedula_propietario, fecha_pago, id_pago);
+CREATE INDEX idx_pagos_mes ON pagos(cedula_propietario, fecha_pago, cedula_administrador);
 CREATE INDEX idx_propietario_sin_pagos ON propietario(numero_de_cedula, nombre, apellido);
